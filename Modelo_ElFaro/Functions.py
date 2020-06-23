@@ -59,7 +59,11 @@ def puntaje_max(vecinos, agents):
     for i in range(1, len(puntajes)):
         if(puntajes[i][1] > max[1]):
             max = puntajes[i]
-    return max
+    maxs = []
+    for j in puntajes:
+        if(j[1] == max[1]):
+            maxs.append(j)
+    return(random.choice(maxs))
 
 
 def actualizar_politicas(agents):
@@ -81,6 +85,15 @@ def actualizar_estrategias(agents):
         ult_pol = Cl.Politica(num_ult_pol)
         new_st = ult_pol.politica[(st, pt)]
         agents[i].estrategias.append(new_st)
+
+
+def simulation(ROUNDS, N, agents, R):
+    for i in range(ROUNDS):
+        n_t = calcular_n_t(agents)
+        ro_t = n_t / N
+        actualizar_puntajes(agents, ro_t, R)
+        actualizar_politicas(agents)
+        actualizar_estrategias(agents)
 
 
 def print_total_scores(agents):

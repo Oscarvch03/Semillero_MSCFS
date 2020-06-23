@@ -8,9 +8,9 @@ import Functions as Func
 ################################################################################
 
 # PARAMETROS DEL MODELO
-N = 50
+N = 20
 R = 0.5
-ROUNDS = 100
+ROUNDS = 20
 
 # Crear politicas (Por si acaso)
 pol0 = Cl.Politica(0)
@@ -30,8 +30,10 @@ pols = [pol0, pol1, pol2, pol3, pol4, pol5, pol6, pol7]
 # Crear N agentes
 Agentes = Func.create_agents(N)
 
-# Grafo Completo de la vecindad entre agentes
-G1 = Cl.Complete_Graph(N)
+# Grafo de la vecindad entre agentes
+# G1 = Cl.Complete_Graph(N)
+G1 = Cl.Regular_Graph(N, 5)
+# G1 = Cl.Random_Graph(N)
 G1.generate_edges()
 print(G1)
 
@@ -39,20 +41,14 @@ print(G1)
 G1.generate_txts()
 
 # Graficar red
-# G1.graficar_graph()
+G1.graficar_graph()
 
 # Asignar Vecinos a los agentes
 Func.asignar_vecinos(N, Agentes, G1)
 # Func.print_agents(Agentes)
 
 # EJECUTAR LAS RONDAS
-for i in range(ROUNDS):
-    n_t = Func.calcular_n_t(Agentes)
-    # print("n_t =", n_t)
-    ro_t = n_t / N
-    # print("ro_t =", ro_t)
-    Func.actualizar_puntajes(Agentes, ro_t, R)
-    Func.actualizar_politicas(Agentes)
-    Func.actualizar_estrategias(Agentes)
-# Func.print_agents(Agentes)
+Func.simulation(ROUNDS, N, Agentes, R)
+
+Func.print_agents(Agentes)
 Func.print_total_scores(Agentes)
