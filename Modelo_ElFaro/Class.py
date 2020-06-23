@@ -102,6 +102,57 @@ class Graph:
 
 ################################################################################
 
+
+class Complete_Graph(Graph):
+
+    def __init__(self, n_nodes):
+        Graph.__init__(self, n_nodes)
+        self.name = "{0}-Complete".format(n_nodes-1)
+        self.n_nodes = n_nodes
+        self.n_edges = int(n_nodes * (n_nodes-1) / 2)
+
+
+    def __str__(self):
+        return Graph.__str__(self)
+
+
+    def generate_edges(self):
+        llinks = []  # Egdes List
+        nodes = [i for i in range(self.n_nodes)] # Nodes list
+        for i in range(self.n_nodes):
+            for j in range(i + 1, self.n_nodes):
+                link = [nodes[i], nodes[j]]
+                llinks.append(link)
+        # if(len(llinks) == self.n_edges):
+        #     print("Perfect")
+        # else:
+        #     print("Pailas")
+        self.edges = llinks[:]
+        # for i in self.edges:
+        #     print(i)
+
+
+    def generate_txts(self):
+
+        # List of edges
+        ff = open("edges_list.dat", "w")
+        for i in range(len(self.edges)):
+            ff.write(str(self.edges[i][0]) + " " + str(self.edges[i][1]) + "\n")
+        ff.close()
+
+        # Histogram of degrees
+        hf = open("deg_hist.dat", "w")
+        for i in range(self.n_nodes):
+            if(i == self.n_nodes - 1):
+                hf.write(str(i) + " " + str(self.n_nodes) + "\n")
+            else:
+                hf.write(str(i) + " " + str(0) + "\n")
+        hf.close()
+
+        print("Graph ready. ")
+
+################################################################################
+
 def bridge(i, llinks, lnkcnt):
     test = False
     while not test:
@@ -228,7 +279,44 @@ class Regular_Graph(Graph):
 
 ################################################################################
 
-# class Complete_Graph(Graph):
+class Random_Graph(Graph):
+
+    def __init__(self, n_nodes):
+        Graph.__init__(self, n_nodes)
+        self.name = "Random"
+        self.n_nodes = n_nodes
+
+        self.aux = []
+
+
+    def __str__(self):
+        return Graph.__str__(self)
+
+
+    def generate_edges(self):
+        p = random.random() # 0.00391
+        lnkcnt = [0 for i in range(self.n_nodes)]  # Link Counter
+        llinks = []  # Edges List
+        nodes = [i for i in range(self.n_nodes)] # Nodes list
+        self.nodes = nodes[:]
+
+        # Make the links
+        for i in range(self.n_nodes - 1):
+            for j in range(i + 1, self.n_nodes):
+                pair = [min(i, j), max(i, j)]
+                num = random.random()
+                # print(num)
+                if(num < p):
+                    lnkcnt[i] += 1
+                    lnkcnt[j] += 1
+                    llinks.append(pair)
+
+        self.n_edges = len(llinks)
+        self.edges = llinks[:]
+        self.aux = lnkcnt[:]
+
+    def generate_txts(self):
+        return Regular_Graph.generate_txts(self)
 
 ################################################################################
 
