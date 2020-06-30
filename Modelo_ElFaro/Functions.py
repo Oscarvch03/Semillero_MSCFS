@@ -12,9 +12,9 @@ def create_agents(N):
     Agents = []
     for i in range(N):
         estr = random.choice([0, 1])
-        scr = 0
+        # scr = 0
         pol = random.choice([0, 1, 2, 3, 4, 5, 6, 7])
-        Agents.append(Cl.Agent(estr, scr, pol, []))
+        Agents.append(Cl.Agent(estr, None, pol, []))
     return Agents
 
 
@@ -66,11 +66,11 @@ def puntaje_max(vecinos, agents):
     return(random.choice(maxs))
 
 
-def actualizar_politicas(agents):
+def actualizar_politicas(agents, old_pols): 
     for i in range(len(agents)):
         max = puntaje_max(agents[i].vecinos, agents)
         if(max[1] > agents[i].scores[-1]):
-            new_pol = agents[max[0]].politicas[-1]
+            new_pol = old_pols[max[0]]
             agents[i].politicas.append(new_pol)
         else:
             old_pol = agents[i].politicas[-1]
@@ -87,14 +87,17 @@ def actualizar_estrategias(agents):
         agents[i].estrategias.append(new_st)
 
 
-def simulation(ROUNDS, N, agents, R):
+def simulation(ROUNDS, N, agents, R):  # Revisar
     for i in range(ROUNDS):
         n_t = calcular_n_t(agents)
         ro_t = n_t / N
         actualizar_puntajes(agents, ro_t, R)
-        actualizar_politicas(agents)
+        old_pols = [i.politicas[-1] for i in agents]
+        actualizar_politicas(agents, old_pols)
         actualizar_estrategias(agents)
-
+    n_t = calcular_n_t(agents)
+    ro_t = n_t / N
+    actualizar_puntajes(agents, ro_t, R)
 
 def print_total_scores(agents):
     print("Puntajes Finales: ")

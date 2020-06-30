@@ -16,7 +16,10 @@ class Agent:
     def __init__(self, estrategia, score, politica, vecinos):
         # (estrategia inicial, puntaje inicial, politica inicial, lista de vecinos)
         self.estrategias = [estrategia]
-        self.scores = [score]
+        if(score != None):
+            self.score = [score]
+        else:
+            self.scores = []
         self.politicas = [politica]
         self.vecinos = vecinos
 
@@ -318,14 +321,23 @@ class Random_Graph(Graph):
     def generate_txts(self):
         return Regular_Graph.generate_txts(self)
 
+
 ################################################################################
 
+# class Scale_Free_Graph(Graph):
+
+
+################################################################################
+
+# class Small_World_Graph(Graph):
+
+
+################################################################################
 
 # BLOQUE PRINCIPAL DE INSTRUCCIONES ############################################
 ################################################################################
 
 if(__name__ == "__main__"):
-
     G1 = Regular_Graph(6, 3)
     G1.generate_edges()
     print(G1)

@@ -8,9 +8,9 @@ import Functions as Func
 ################################################################################
 
 # PARAMETROS DEL MODELO
-N = 20
+N = 10
 R = 0.5
-ROUNDS = 20
+ROUNDS = 1
 
 # Crear politicas (Por si acaso)
 pol0 = Cl.Politica(0)
@@ -24,15 +24,15 @@ pol7 = Cl.Politica(7)
 
 # Lista de Politicas
 pols = [pol0, pol1, pol2, pol3, pol4, pol5, pol6, pol7]
-# for i in pols:
-#     print(i)
+for i in pols:
+    print(i)
 
 # Crear N agentes
 Agentes = Func.create_agents(N)
 
 # Grafo de la vecindad entre agentes
-# G1 = Cl.Complete_Graph(N)
-G1 = Cl.Regular_Graph(N, 5)
+G1 = Cl.Complete_Graph(N)
+# G1 = Cl.Regular_Graph(N, 3)
 # G1 = Cl.Random_Graph(N)
 G1.generate_edges()
 print(G1)
