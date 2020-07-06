@@ -11,7 +11,7 @@ import Graph as Gr
 ################################################################################
 
 # PARAMETROS DEL MODELO
-N = 10
+N = 20
 R = 0.5
 ROUNDS = 10
 
@@ -33,9 +33,9 @@ pols = [pol0, pol1, pol2, pol3, pol4, pol5, pol6, pol7]
 # print("Pols listas")
 
 # Grafo de la vecindad entre agentes
-# G1 = Gr.Complete_Graph(N)
+G1 = Gr.Complete_Graph(N)
 # G1 = Gr.Regular_Graph(N, 5)
-G1 = Gr.Random_Graph(N, 0.5)
+# G1 = Gr.Random_Graph(N, 0.5)
 G1.generate_edges()
 # print(G1)
 

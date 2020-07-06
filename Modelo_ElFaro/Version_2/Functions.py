@@ -97,7 +97,7 @@ def calcular_n_t(agents):
 
 
 def puntaje_max(vecinos, agents):
-    puntajes = [(i, agents[i].actual_pol) for i in vecinos]
+    puntajes = [(i, agents[i].actual_scr) for i in vecinos]
     max = puntajes[0]
     for i in range(1, len(puntajes)):
         if(puntajes[i][1] > max[1]):
