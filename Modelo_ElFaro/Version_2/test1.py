@@ -11,8 +11,8 @@ import Graph as Gr
 ################################################################################
 
 # PARAMETROS DEL MODELO
-N = 20
-R = 0.5
+N = 30
+R = 0.1
 ROUNDS = 10
 
 # Crear politicas (Por si acaso)
@@ -53,7 +53,7 @@ Func.simulation(ROUNDS, N, Agentes, R)
 
 
 # Graficar red
-# G1.graficar_graph()
+G1.graficar_graph()
 
 
 print("Agentes:", N)

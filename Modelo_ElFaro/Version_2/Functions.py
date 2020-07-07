@@ -51,14 +51,14 @@ def print_agents(agents):
         print()
 
 
-def print_file(agents, ROUND, ini):
+def print_file(agents, ROUND):
     char = 'w' if ROUND == 0 else 'a'
 
     file1 = open('estrategias.csv', char)
     file2 = open('puntajes.csv', char)
     file3 = open('politicas.csv', char)
 
-    if(ini):
+    if(ROUND == 0):
         file1.write("ROUND" + ",")
         file2.write("ROUND" + ",")
         file3.write("ROUND" + ",")
@@ -144,7 +144,7 @@ def actualizar_estrategias(agents):
 
 
 def simulation(ROUNDS, N, agents, R):
-    print_file(agents, 0, True)
+    print_file(agents, 0)
     for i in range(ROUNDS):
         # print()
         # print("RONDA {0}".format(i+1))
@@ -156,7 +156,7 @@ def simulation(ROUNDS, N, agents, R):
         # actualizar_politicas(agents, old_pols)
         actualizar_politicas(agents)
         actualizar_estrategias(agents)
-        print_file(agents, i+1, False)
+        print_file(agents, i+1)
 
 
 
