@@ -5,6 +5,8 @@ from numpy import random
 import networkx as nx
 import matplotlib.pyplot as plt
 import pylab
+import math
+
 
 # CLASES Y FUNCIONES ###########################################################
 ################################################################################
@@ -21,8 +23,8 @@ class Graph:
 
     def __str__(self):
         msg = "{0} graph with {1} nodes and {2} edges. ".format(self.name,
-                                                                   self.n_nodes,
-                                                                   self.n_edges)
+                                                                self.n_nodes,
+                                                                self.n_edges)
         return msg
 
 
@@ -34,7 +36,10 @@ class Graph:
         fig = pylab.figure()
         if(len(G.nodes) == self.n_nodes):
             # print("Vamos Bien")
-            nx.draw_shell(G, nlist = [range(0, len(G.nodes))], with_labels = True)
+            if(self.name == "Star" or self.name == "Wheel"):
+                nx.draw_shell(G, nlist = [[self.center], list(range(0, self.center)) + list(range(self.center + 1, len(G.nodes)))], with_labels = True)
+            else:
+                nx.draw_shell(G, nlist = [range(0, len(G.nodes))], with_labels = True)
             fig.canvas.draw()
             pylab.draw()
         pylab.show()
@@ -60,6 +65,8 @@ class Complete_Graph(Graph):
     def generate_edges(self):
         llinks = []  # Egdes List
         nodes = [i for i in range(self.n_nodes)] # Nodes list
+        self.nodes = nodes[:]
+
         for i in range(self.n_nodes):
             for j in range(i + 1, self.n_nodes):
                 link = [nodes[i], nodes[j]]
@@ -74,7 +81,6 @@ class Complete_Graph(Graph):
 
 
     def generate_txts(self):
-
         # List of edges
         ff = open("edges_list.dat", "w")
         for i in range(len(self.edges)):
@@ -92,7 +98,9 @@ class Complete_Graph(Graph):
 
         print("Graph ready. ")
 
+
 ################################################################################
+
 
 def bridge(i, llinks, lnkcnt):
     test = False
@@ -198,7 +206,6 @@ class Regular_Graph(Graph):
 
 
     def generate_txts(self):
-
         # List of edges
         ff = open("edges_list.dat", "w")
         for i in range(len(self.edges)):
@@ -219,6 +226,7 @@ class Regular_Graph(Graph):
 
 
 ################################################################################
+
 
 class Random_Graph(Graph):
 
@@ -257,6 +265,7 @@ class Random_Graph(Graph):
         self.edges = llinks[:]
         self.aux = lnkcnt[:]
 
+
     def generate_txts(self):
         return Regular_Graph.generate_txts(self)
 
@@ -264,11 +273,259 @@ class Random_Graph(Graph):
 ################################################################################
 
 # class Scale_Free_Graph(Graph):
+#
+#     def __init__(self, )
+
+################################################################################
+
+
+class Small_World_Graph(Graph):
+
+    def __init__(self, n_nodes, p):
+        Graph.__init__(self, n_nodes)
+        self.name = "Small World"
+        self.n_nodes = n_nodes
+        self.p = p
+
+        self.aux = []
+
+
+    def __str__(self):
+        return Graph.__str__(self)
+
+
+    def generate_edges(self):
+        p = self.p
+        lnkcnt = [0 for i in range(self.n_nodes)]  # Link Counter
+        llinks = []  # Edges List
+        nodes = [i for i in range(self.n_nodes)] # Nodes list
+        self.nodes = nodes[:]
+
+        # Square Lattice
+        sq = math.sqrt(self.n_nodes)
+        sqint = int(sq)
+        if(sq == sqint):
+            for i in range(self.n_nodes):
+                row = int(math.floor(float(i) / sqint))
+                col = int(i - row * sqint)
+
+                j = i + 1
+                if(random.random() >= p):
+                    if(col == sqint - 1):
+                        j -= sqint
+                else:
+                    rnd = i
+                    while(rnd == i):
+                        rnd = random.randint(self.n_nodes)
+                    j = rnd
+
+                k = i + sqint
+                if(random.random() >= p):
+                    if(row == sqint - 1):
+                        k -= sqint * sqint
+                else:
+                    rnd = i
+                    while(rnd == i):
+                        rnd = random.randint(self.n_nodes)
+                    k = rnd
+
+                pair1 = [i, j]
+                llinks.append(pair1)
+                pair2 = [i, k]
+                llinks.append(pair2)
+                lnkcnt[i] += 2
+                lnkcnt[j] += 1
+                lnkcnt[k] += 1
+
+                self.n_edges = len(llinks)
+                self.edges = llinks[:]
+                self.aux = lnkcnt[:]
+
+        else:
+            print("Cannot form a Square Lattice!")
+
+
+    def generate_txts(self):
+        return Regular_Graph.generate_txts(self)
 
 
 ################################################################################
 
-# class Small_World_Graph(Graph):
+
+class Ring_Graph(Graph):
+
+    def __init__(self, n_nodes):
+        Graph.__init__(self, n_nodes)
+        self.name = "Ring"
+        self.n_nodes = n_nodes
 
 
-################################################
+    def __str__(self):
+        return Graph.__str__(self)
+
+
+    def generate_edges(self):
+        llinks = []
+        nodes = [i for i in range(self.n_nodes)]
+        self.nodes = nodes[:]
+        for j in range(self.n_nodes):
+            if(j != self.n_nodes - 1):
+                llinks.append([nodes[j], nodes[j + 1]])
+            else:
+                llinks.append([nodes[j], nodes[0]])
+
+        self.n_edges = len(llinks)
+        self.edges = llinks[:]
+
+
+    def generate_txts(self):
+        # List of edges
+        ff = open("edges_list.dat", "w")
+        for i in range(len(self.edges)):
+            ff.write(str(self.edges[i][0]) + " " + str(self.edges[i][1]) + "\n")
+        ff.close()
+
+        # Histogram of degrees
+        hf = open("deg_hist.dat", "w")
+        for i in range(self.n_nodes):
+            if(i == 2):
+                hf.write(str(i) + " " + str(self.n_nodes) + "\n")
+            else:
+                hf.write(str(i) + " " + str(0) + "\n")
+        hf.close()
+
+        print("Graph ready. ")
+
+
+################################################################################
+
+
+class Star_Graph(Graph):
+
+    def __init__(self, n_nodes):
+        Graph.__init__(self, n_nodes)
+        self.name = "Star"
+        self.n_nodes = n_nodes
+
+        self.center = None
+
+
+    def __str__(self):
+        return Graph.__str__(self)
+
+
+    def generate_edges(self):
+        llinks = []
+        nodes = [i for i in range(self.n_nodes)]
+        self.nodes = nodes[:]
+        center = random.choice(nodes)
+        for j in range(self.n_nodes):
+            if(nodes[j] != center):
+                llinks.append([center, nodes[j]])
+
+        self.center = center
+        self.n_edges = len(llinks)
+        self.edges = llinks[:]
+
+
+    def generate_txts(self):
+        # List of edges
+        ff = open("edges_list.dat", "w")
+        for i in range(len(self.edges)):
+            ff.write(str(self.edges[i][0]) + " " + str(self.edges[i][1]) + "\n")
+        ff.close()
+
+        # Histogram of degrees
+        hf = open("deg_hist.dat", "w")
+        for i in range(self.n_nodes):
+            if(i == 1):
+                hf.write(str(i) + " " + str(self.n_nodes - 1) + "\n")
+            elif(i == self.n_nodes - 1):
+                hf.write(str(i) + " " + str(1) + "\n")
+            else:
+                hf.write(str(i) + " " + str(0) + "\n")
+        hf.close()
+
+        print("Graph ready. ")
+
+
+################################################################################
+
+
+class Wheel_Graph(Graph):
+
+    def __init__(self, n_nodes):
+        Graph.__init__(self, n_nodes)
+        self.name = "Wheel"
+        self.n_nodes = n_nodes
+
+        self.center = None
+
+
+    def __str__(self):
+        return Graph.__str__(self)
+
+
+    def generate_edges(self):
+        llinks = []
+        nodes = [i for i in range(self.n_nodes)]
+        self.nodes = nodes[:]
+        center = random.choice(nodes)
+        for j in range(self.n_nodes):
+            if(nodes[j] != center):
+                llinks.append([center, nodes[j]])
+
+        if(center == 0):
+            for k in range(1, self.n_nodes):
+                if(k != self.n_nodes - 1):
+                    llinks.append([nodes[k], nodes[k + 1]])
+                else:
+                    llinks.append([nodes[k], nodes[1]])
+
+        elif(center == self.n_nodes - 1):
+            for k in range(self.n_nodes - 1):
+                if(k != self.n_nodes - 2):
+                    llinks.append([nodes[k], nodes[k + 1]])
+                else:
+                    llinks.append([nodes[k], nodes[0]])
+
+        else:
+            for l in range(center):
+                if(l == center - 1):
+                    llinks.append([nodes[center - 1], nodes[center + 1]])
+                else:
+                    llinks.append([nodes[l], nodes[l + 1]])
+
+            for m in range(center + 1, self.n_nodes):
+                if(m != self.n_nodes - 1):
+                    llinks.append([nodes[m], nodes[m + 1]])
+                else:
+                    llinks.append([nodes[m], nodes[0]])
+
+        self.center = center
+        self.n_edges = len(llinks)
+        self.edges = llinks[:]
+
+
+    def generate_txts(self):
+        # List of edges
+        ff = open("edges_list.dat", "w")
+        for i in range(len(self.edges)):
+            ff.write(str(self.edges[i][0]) + " " + str(self.edges[i][1]) + "\n")
+        ff.close()
+
+        # Histogram of degrees
+        hf = open("deg_hist.dat", "w")
+        for i in range(self.n_nodes):
+            if(i == 3):
+                hf.write(str(i) + " " + str(self.n_nodes - 1) + "\n")
+            elif(i == self.n_nodes - 1):
+                hf.write(str(i) + " " + str(1) + "\n")
+            else:
+                hf.write(str(i) + " " + str(0) + "\n")
+        hf.close()
+
+        print("Graph ready. ")
+
+
+################################################################################

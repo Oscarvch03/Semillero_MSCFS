@@ -6,10 +6,10 @@ import Graph as Gr
 # BLOQUE PRINCIPAL DE INSTRUCCIONES ############################################
 ################################################################################
 
-N = 10
+N = 11
 
 # Grafo Completo de la vecindad entre agentes
-G1 = Gr.Complete_Graph(N)
+G1 = Gr.Wheel_Graph(N)
 G1.generate_edges()
 print(G1)
 G1.generate_txts()
