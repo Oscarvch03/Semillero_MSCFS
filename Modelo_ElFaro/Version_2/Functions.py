@@ -51,12 +51,12 @@ def print_agents(agents):
         print()
 
 
-def print_file(agents, ROUND):
+def print_file(agents, ROUND, ID_simulation):
     char = 'w' if ROUND == 0 else 'a'
 
-    file1 = open('estrategias.csv', char)
-    file2 = open('puntajes.csv', char)
-    file3 = open('politicas.csv', char)
+    file1 = open('estrategias_{0}.csv'.format(ID_simulation), char)
+    file2 = open('puntajes_{0}.csv'.format(ID_simulation), char)
+    file3 = open('politicas_{0}.csv'.format(ID_simulation), char)
 
     if(ROUND == 0):
         file1.write("ROUND" + ",")
@@ -143,20 +143,24 @@ def actualizar_estrategias(agents):
         agents[i].actual_est = new_st
 
 
-def simulation(ROUNDS, N, agents, R):
-    print_file(agents, 0)
+def simulation(ROUNDS, N, agents, R, k, ID_simulation):
+    opt_assist = []
+    tot_reward = []
+    # Terminar
+    print_file(agents, 0, ID_simulation)
     for i in range(ROUNDS):
         # print()
         # print("RONDA {0}".format(i+1))
         # print()
         n_t = calcular_n_t(agents)
-        ro_t = n_t / N
+        ro_t = n_t / N  # Proporcion de asistencia
         actualizar_puntajes(agents, ro_t, R)
         # old_pols = [i.politicas[-1] for i in agents]
         # actualizar_politicas(agents, old_pols)
         actualizar_politicas(agents)
         actualizar_estrategias(agents)
-        print_file(agents, i+1)
+        if(i % k == 0):
+            print_file(agents, i+1, ID_simulation)
 
 
 
