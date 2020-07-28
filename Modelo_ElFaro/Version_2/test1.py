@@ -7,6 +7,9 @@ import Class as Cl
 import Functions as Func
 import Graph as Gr
 
+import time
+
+
 # BLOQUE PRINCIPAL DE INSTRUCCIONES ############################################
 ################################################################################
 
@@ -35,7 +38,13 @@ pols = [pol0, pol1, pol2, pol3, pol4, pol5, pol6, pol7]
 # Grafo de la vecindad entre agentes
 # G1 = Gr.Complete_Graph(N)
 # G1 = Gr.Regular_Graph(N, 2)
-p = 0.5
+# G1 = Gr.Scale_Free_Graph() # Aun no
+# p = 0.5
+# G1 = Gr.Small_World_Graph(N, p)
+# G1 = Gr.Ring_Graph(N)
+# G1 = Gr.Star_Graph(N)
+# G1 = Gr.Wheel_Graph(N, 2)
+p = 0.1
 G1 = Gr.Random_Graph(N, p)
 G1.generate_edges()
 # print(G1)
@@ -49,23 +58,30 @@ G1.generate_txts()
 Agentes = Func.create_agents(N, G1, R)
 
 
-ID_simulation = "random_{0}".format(p)
-k = 10  # Cada k rondas se graba en los csv
+ID_simulation = G1.name
+k = 5  # Cada k rondas se graba en los csv
 # EJECUTAR LAS RONDAS
+t_start = time.time()
 Func.simulation(ROUNDS, N, Agentes, R, k, ID_simulation)
+t_stop = time.time()
+time = t_stop - t_start
+Func.results(N, R, G1, ROUNDS, time, k, ID_simulation)
 
 
-# Graficar red
-G1.graficar_graph()
+# # Graficar red
+# G1.graficar_graph()
 
 
+print("Red:", G1)
 print("Agentes:", N)
 print("Umbral:", R)
-print("Red:", G1)
 print("Rondas:", ROUNDS)
+print("k =", k)
+print("Time:", t_stop - t_start)
 
-# Func.print_agents(Agentes)
-# Func.print_total_scores(Agentes)
+
+# Graficar csv
+Func.graficar(N, R, ROUNDS, k, ID_simulation, True)
 
 ################################################################################
 
@@ -74,7 +90,7 @@ print("Rondas:", ROUNDS)
 # ROUNDS 300
 
 # Formulas
-# Asistencia Optima: 1 - 2*sum(sqrt((ro_t - 0.5)**2) / N))
+# Asistencia Optima: 1 - 2*sum(sqrt((ro_t - 0.5)**2) / i)) i es la ronda
 # Recompensa Total: suma_puntajes / (ROUNDS * N)
 
 # Simulaciones

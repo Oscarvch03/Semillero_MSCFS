@@ -122,7 +122,7 @@ class Regular_Graph(Graph):
 
     def __init__(self, n_nodes, degree):
         Graph.__init__(self, n_nodes)
-        self.name = "{0}-Regular".format(degree)
+        self.name = "{0}_Regular".format(degree)
         self.n_nodes = n_nodes
         self.degree = degree
 
@@ -232,7 +232,7 @@ class Random_Graph(Graph):
 
     def __init__(self, n_nodes, p):
         Graph.__init__(self, n_nodes)
-        self.name = "Random"
+        self.name = "Random(p = {0})".format(p)
         self.n_nodes = n_nodes
         self.p = p
 

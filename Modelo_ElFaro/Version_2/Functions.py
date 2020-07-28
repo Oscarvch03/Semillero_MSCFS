@@ -5,6 +5,9 @@ import Class as Cl
 import Graph as Gr
 
 import random
+import pandas as pd
+import matplotlib.pyplot as plt
+import pylab
 
 # CLASES Y FUNCIONES ###########################################################
 ################################################################################
@@ -98,30 +101,36 @@ def calcular_n_t(agents):
 
 def puntaje_max(vecinos, agents):
     puntajes = [(i, agents[i].actual_scr) for i in vecinos]
-    max = puntajes[0]
-    for i in range(1, len(puntajes)):
-        if(puntajes[i][1] > max[1]):
-            max = puntajes[i]
-    maxs = []
-    for j in puntajes:
-        if(j[1] == max[1]):
-            maxs.append(j)
-    return(random.choice(maxs))
-
+    if(len(puntajes) != 0):
+        max = puntajes[0]
+        for i in range(1, len(puntajes)):
+            if(puntajes[i][1] > max[1]):
+                max = puntajes[i]
+        maxs = []
+        for j in puntajes:
+            if(j[1] == max[1]):
+                maxs.append(j)
+        return(random.choice(maxs))
+    else:
+        return 2 # No adopta ninguno
 
 def actualizar_politicas(agents):
     for i in range(len(agents)):
         max = puntaje_max(agents[i].vecinos, agents)
-        if(max[1] > agents[i].actual_scr):
-            # new_pol = old_pols[max[0]]
-            # agents[i].politicas.append(new_pol)
-            new = agents[max[0]].actual_pol
-            agents[i].new_pol = new
-        else:
-            # old_pol = agents[i].politicas[-1]
-            # agents[i].politicas.append(old_pol)
+        if(max == 2):
             old = agents[i].actual_pol
             agents[i].new_pol = old
+        else:
+            if(max[1] > agents[i].actual_scr):
+                # new_pol = old_pols[max[0]]
+                # agents[i].politicas.append(new_pol)
+                new = agents[max[0]].actual_pol
+                agents[i].new_pol = new
+            else:
+                # old_pol = agents[i].politicas[-1]
+                # agents[i].politicas.append(old_pol)
+                old = agents[i].actual_pol
+                agents[i].new_pol = old
 
     for j in range(len(agents)):
         agents[j].actual_pol = agents[j].new_pol
@@ -148,7 +157,7 @@ def simulation(ROUNDS, N, agents, R, k, ID_simulation):
     tot_reward = []
     # Terminar
     print_file(agents, 0, ID_simulation)
-    for i in range(ROUNDS):
+    for i in range(1, ROUNDS + 1):
         # print()
         # print("RONDA {0}".format(i+1))
         # print()
@@ -160,11 +169,120 @@ def simulation(ROUNDS, N, agents, R, k, ID_simulation):
         actualizar_politicas(agents)
         actualizar_estrategias(agents)
         if(i % k == 0):
-            print_file(agents, i+1, ID_simulation)
+            print_file(agents, i, ID_simulation)
 
 
+def results(N, R, graph, rounds, time, k, ID_simulation):
+    result = open('results.dat', 'a')
+    result.write("\n")
+    result.write("Simulation: {0}\n".format(ID_simulation))
+    result.write("Red: {0}\n".format(graph.name))
+    result.write("Agentes: {0}\n".format(N))
+    result.write("Umbral: {0}\n".format(R))
+    result.write("Rondas: {0}\n".format(rounds))
+    result.write("k: {0}\n".format(k))
+    result.write("Time: {0}\n".format(time))
+    result.write("Out: estrategias_{0}.csv, politicas_{0}.csv, puntajes_{0}.csv, graf_{0}.png\n".format(ID_simulation))
+    result.write("\n")
+    result.close()
 
-# def print_total_scores(agents):
-#     print("Puntajes Finales: ")
-#     for i in range(len(agents)):
-#         print("Agente {0}:".format(i), sum(agents[i].scores))
+
+def graficar(N, R, rounds, l, ID_simulation, see):
+
+    rondas = [i for i in range(0, rounds + 1, l)]
+    # print(rondas)
+
+
+    estrategias = pd.read_csv('estrategias_{0}.csv'.format(ID_simulation))
+    asist = []
+    for i in estrategias.itertuples():
+        aux = [i[j] for j in range(2, len(i) - 1)]
+        asist.append(sum(aux))
+    asistencia = [i/N for i in asist]
+
+
+    politicas = pd.read_csv('politicas_{0}.csv'.format(ID_simulation))
+    pol0 = []
+    pol1 = []
+    pol2 = []
+    pol3 = []
+    pol4 = []
+    pol5 = []
+    pol6 = []
+    pol7 = []
+    for i in politicas.itertuples():
+        cont = [0, 0, 0, 0, 0, 0, 0, 0]
+        for k in range(2, len(i) - 1):
+            if i[k] == 0:
+                cont[0] += 1
+            elif i[k] == 1:
+                cont[1] += 1
+            elif i[k] == 2:
+                cont[2] += 1
+            elif i[k] == 3:
+                cont[3] += 1
+            elif i[k] == 4:
+                cont[4] += 1
+            elif i[k] == 5:
+                cont[5] += 1
+            elif i[k] == 6:
+                cont[6] += 1
+            elif i[k] == 7:
+                cont[7] += 1
+        pol0.append(cont[0])
+        pol1.append(cont[1])
+        pol2.append(cont[2])
+        pol3.append(cont[3])
+        pol4.append(cont[4])
+        pol5.append(cont[5])
+        pol6.append(cont[6])
+        pol7.append(cont[7])
+
+
+    puntajes = pd.read_csv('puntajes_{0}.csv'.format(ID_simulation))
+    scr = []
+    for i in puntajes.itertuples():
+        aux = [i[j] for j in range(2, len(i) - 1)]
+        scr.append(sum(aux))
+    scores = [i/N for i in scr]
+
+
+    fig, ax = plt.subplots(2, 2)
+
+    ax[0, 0].plot(rondas, asistencia, 'g')
+    ax[0, 0].set(ylabel='Asistencia(%)', xlim = [0, rounds], ylim = [0, 1],
+       title='Asistencia por Ronda a El Farol')
+    # ax[0].legend(["Asistencia por Ronda"])
+    ax[0, 0].grid()
+
+    ax[0, 1].plot(rondas, pol0)
+    ax[0, 1].plot(rondas, pol1)
+    ax[0, 1].plot(rondas, pol2)
+    ax[0, 1].plot(rondas, pol3)
+    ax[0, 1].plot(rondas, pol4)
+    ax[0, 1].plot(rondas, pol5)
+    ax[0, 1].plot(rondas, pol6)
+    ax[0, 1].plot(rondas, pol7)
+    ax[0, 1].set(ylabel='Politicas(# Uso)', xlim = [0, rounds], ylim = [0, N],
+       title='Uso de Politicas por Ronda')
+    ax[0, 1].legend(["Politica 0", "Politica 1", "Politica 2", "Politica 3", "Politica 4",
+               "Politica 5", "Politica 6", "Politica 7"])
+    ax[0, 1].grid()
+
+    ax[1, 0].plot(rondas, scores, 'r')
+    ax[1, 0].set(xlabel='Rondas', ylabel='Puntaje Promedio', xlim = [0, rounds], ylim = [-1, 1],
+       title='Puntaje Promedio por Ronda para cada Agente')
+    ax[1, 0].grid()
+
+    ax[1, 1].axis('off')
+    ax[1, 1].set(xlim = [0, rounds], ylim = [0, 1])
+    ax[1, 1].text(rounds / 2, 0.5,
+                  'Graficas El Farol con Parametros:\n Red: {0}\n Agentes = {1}\n Umbral = {2}\n Rondas = {3}\n k = {4}'.format(ID_simulation, N, R, rounds, l),
+                  horizontalalignment='center',
+                  verticalalignment='center',
+                  fontsize = 20)
+
+    fig.set_size_inches(15, 10)
+    plt.savefig('graf_{0}.PNG'.format(ID_simulation))
+    if see:
+        plt.show()
