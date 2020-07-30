@@ -2,13 +2,15 @@
 ################################################################################
 
 # print("Importando...")
+import sys
+sys.path.insert(0, "../")
+# print(sys.path)
 
-import Class as Cl
-import Functions as Func
-import Graph as Gr
+import Class.Class as Cl
+import Functions.Functions as Func
+import Graph.Graph as Gr
 
 import time
-
 
 # BLOQUE PRINCIPAL DE INSTRUCCIONES ############################################
 ################################################################################
@@ -37,6 +39,8 @@ pols = [pol0, pol1, pol2, pol3, pol4, pol5, pol6, pol7]
 
 # Grafo de la vecindad entre agentes
 # G1 = Gr.Complete_Graph(N)
+p = 0.8
+G1 = Gr.Random_Graph(N, p)
 # G1 = Gr.Regular_Graph(N, 2)
 # G1 = Gr.Scale_Free_Graph() # Aun no
 # p = 0.5
@@ -44,8 +48,7 @@ pols = [pol0, pol1, pol2, pol3, pol4, pol5, pol6, pol7]
 # G1 = Gr.Ring_Graph(N)
 # G1 = Gr.Star_Graph(N)
 # G1 = Gr.Wheel_Graph(N, 2)
-p = 0.1
-G1 = Gr.Random_Graph(N, p)
+
 G1.generate_edges()
 # print(G1)
 

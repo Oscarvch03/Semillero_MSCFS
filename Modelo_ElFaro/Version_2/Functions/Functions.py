@@ -1,16 +1,21 @@
 # LIBRERIAS IMPORTADAS #########################################################
 ################################################################################
+import sys
+sys.path.insert(0, "../")
+# print(sys.path)
 
-import Class as Cl
-import Graph as Gr
+import Class.Class as Cl
+import Graph.Graph as Gr
 
 import random
 import pandas as pd
 import matplotlib.pyplot as plt
 import pylab
+import os.path
 
 # CLASES Y FUNCIONES ###########################################################
 ################################################################################
+
 
 def create_agents(N, graph, R):
     Agents = []
@@ -57,9 +62,14 @@ def print_agents(agents):
 def print_file(agents, ROUND, ID_simulation):
     char = 'w' if ROUND == 0 else 'a'
 
-    file1 = open('estrategias_{0}.csv'.format(ID_simulation), char)
-    file2 = open('puntajes_{0}.csv'.format(ID_simulation), char)
-    file3 = open('politicas_{0}.csv'.format(ID_simulation), char)
+    save_path = '/home/osvch03/Desktop/Semillero_MSCFS/Modelo_ElFaro/Version_2/results'
+    name1 = os.path.join(save_path, 'estrategias_{0}.csv'.format(ID_simulation))
+    name2 = os.path.join(save_path, 'politicas_{0}.csv'.format(ID_simulation))
+    name3 = os.path.join(save_path, 'puntajes_{0}.csv'.format(ID_simulation))
+
+    file1 = open(name1, char)
+    file2 = open(name2, char)
+    file3 = open(name3, char)
 
     if(ROUND == 0):
         file1.write("ROUND" + ",")
@@ -79,8 +89,8 @@ def print_file(agents, ROUND, ID_simulation):
 
     for i in agents:
         file1.write(str(i.actual_est) + ",")
-        file2.write(str(i.actual_scr) + ",")
-        file3.write(str(i.actual_pol) + ",")
+        file2.write(str(i.actual_pol) + ",")
+        file3.write(str(i.actual_scr) + ",")
 
     file1.write("\n")
     file2.write("\n")
@@ -113,6 +123,7 @@ def puntaje_max(vecinos, agents):
         return(random.choice(maxs))
     else:
         return 2 # No adopta ninguno
+
 
 def actualizar_politicas(agents):
     for i in range(len(agents)):
@@ -192,8 +203,12 @@ def graficar(N, R, rounds, l, ID_simulation, see):
     rondas = [i for i in range(0, rounds + 1, l)]
     # print(rondas)
 
+    save_path = '/home/osvch03/Desktop/Semillero_MSCFS/Modelo_ElFaro/Version_2/results'
+    name1 = os.path.join(save_path, 'estrategias_{0}.csv'.format(ID_simulation))
+    name2 = os.path.join(save_path, 'politicas_{0}.csv'.format(ID_simulation))
+    name3 = os.path.join(save_path, 'puntajes_{0}.csv'.format(ID_simulation))
 
-    estrategias = pd.read_csv('estrategias_{0}.csv'.format(ID_simulation))
+    estrategias = pd.read_csv(name1)
     asist = []
     for i in estrategias.itertuples():
         aux = [i[j] for j in range(2, len(i) - 1)]
@@ -201,7 +216,7 @@ def graficar(N, R, rounds, l, ID_simulation, see):
     asistencia = [i/N for i in asist]
 
 
-    politicas = pd.read_csv('politicas_{0}.csv'.format(ID_simulation))
+    politicas = pd.read_csv(name2)
     pol0 = []
     pol1 = []
     pol2 = []
@@ -239,7 +254,7 @@ def graficar(N, R, rounds, l, ID_simulation, see):
         pol7.append(cont[7])
 
 
-    puntajes = pd.read_csv('puntajes_{0}.csv'.format(ID_simulation))
+    puntajes = pd.read_csv(name3)
     scr = []
     for i in puntajes.itertuples():
         aux = [i[j] for j in range(2, len(i) - 1)]
@@ -283,6 +298,8 @@ def graficar(N, R, rounds, l, ID_simulation, see):
                   fontsize = 20)
 
     fig.set_size_inches(15, 10)
-    plt.savefig('graf_{0}.PNG'.format(ID_simulation))
+    save_path = '/home/osvch03/Desktop/Semillero_MSCFS/Modelo_ElFaro/Version_2/graphics'
+    name = os.path.join(save_path, 'graf_{0}.PNG'.format(ID_simulation))
+    plt.savefig(name)
     if see:
         plt.show()

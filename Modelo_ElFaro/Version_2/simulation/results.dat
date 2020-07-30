@@ -1,0 +1,30 @@
+
+Simulation: Random(p = 0.2)
+Red: Random(p = 0.2)
+Agentes: 100
+Umbral: 0.5
+Rondas: 300
+k: 5
+Time: 0.4412970542907715
+Out: estrategias_Random(p = 0.2).csv, politicas_Random(p = 0.2).csv, puntajes_Random(p = 0.2).csv, graf_Random(p = 0.2).png
+
+
+Simulation: Random(p = 0.5)
+Red: Random(p = 0.5)
+Agentes: 100
+Umbral: 0.5
+Rondas: 300
+k: 5
+Time: 0.7820737361907959
+Out: estrategias_Random(p = 0.5).csv, politicas_Random(p = 0.5).csv, puntajes_Random(p = 0.5).csv, graf_Random(p = 0.5).png
+
+
+Simulation: Random(p = 0.8)
+Red: Random(p = 0.8)
+Agentes: 100
+Umbral: 0.5
+Rondas: 300
+k: 5
+Time: 1.104356050491333
+Out: estrategias_Random(p = 0.8).csv, politicas_Random(p = 0.8).csv, puntajes_Random(p = 0.8).csv, graf_Random(p = 0.8).png
+

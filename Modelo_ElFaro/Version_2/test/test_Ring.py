@@ -1,16 +1,18 @@
 # LIBRERIAS IMPORTADAS #########################################################
 ################################################################################
 
-import Graph as Gr
+import sys
+sys.path.insert(0, "../")
+# print(sys.path)
+import Graph.Graph as Gr
 
 # BLOQUE PRINCIPAL DE INSTRUCCIONES ############################################
 ################################################################################
 
-N = 6
+N = 10
 
-# Grafo Regular de la vecindad entre agentes
-degree = 3
-G1 = Gr.Regular_Graph(N, degree)
+# Grafo Completo de la vecindad entre agentes
+G1 = Gr.Ring_Graph(N)
 G1.generate_edges()
 print(G1)
 G1.generate_txts()
