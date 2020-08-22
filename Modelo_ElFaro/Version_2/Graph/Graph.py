@@ -67,7 +67,7 @@ class Complete_Graph(Graph):
         nodes = [i for i in range(self.n_nodes)] # Nodes list
         self.nodes = nodes[:]
 
-        for i in range(self.n_nodes):
+        for i in range(self.n_nodes-1):
             for j in range(i + 1, self.n_nodes):
                 link = [nodes[i], nodes[j]]
                 llinks.append(link)
