@@ -12,6 +12,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import pylab
 import os.path
+import os
 
 # CLASES Y FUNCIONES ###########################################################
 ################################################################################
@@ -62,7 +63,9 @@ def print_agents(agents):
 def print_file(agents, ROUND, ID_simulation):
     char = 'w' if ROUND == 0 else 'a'
 
-    save_path = '/home/osvch03/Desktop/Semillero_MSCFS/Modelo_ElFaro/Version_2/results'
+    cur_path = 'Modelo_ElFaro/Version_2/Functions'
+    base_path = os.getcwd()[:-len(cur_path)-1]
+    save_path = base_path + 'Modelo_ElFaro/Version_2/results'
     name1 = os.path.join(save_path, 'estrategias_{0}.csv'.format(ID_simulation))
     name2 = os.path.join(save_path, 'politicas_{0}.csv'.format(ID_simulation))
     name3 = os.path.join(save_path, 'puntajes_{0}.csv'.format(ID_simulation))
@@ -203,7 +206,9 @@ def graficar(N, R, rounds, l, ID_simulation, see):
     rondas = [i for i in range(0, rounds + 1, l)]
     # print(rondas)
 
-    save_path = '/home/osvch03/Desktop/Semillero_MSCFS/Modelo_ElFaro/Version_2/results'
+    cur_path = 'Modelo_ElFaro/Version_2/Functions'
+    base_path = os.getcwd()[:-len(cur_path)-1]
+    save_path = base_path + 'Modelo_ElFaro/Version_2/results'
     name1 = os.path.join(save_path, 'estrategias_{0}.csv'.format(ID_simulation))
     name2 = os.path.join(save_path, 'politicas_{0}.csv'.format(ID_simulation))
     name3 = os.path.join(save_path, 'puntajes_{0}.csv'.format(ID_simulation))
@@ -298,7 +303,9 @@ def graficar(N, R, rounds, l, ID_simulation, see):
                   fontsize = 20)
 
     fig.set_size_inches(15, 10)
-    save_path = '/home/osvch03/Desktop/Semillero_MSCFS/Modelo_ElFaro/Version_2/graphics'
+    cur_path = 'Modelo_ElFaro/Version_2/Functions'
+    base_path = os.getcwd()[:-len(cur_path)-1]
+    save_path = base_path + 'Modelo_ElFaro/Version_2/graphics'
     name = os.path.join(save_path, 'graf_{0}.PNG'.format(ID_simulation))
     plt.savefig(name)
     if see:
