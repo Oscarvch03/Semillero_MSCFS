@@ -232,7 +232,7 @@ class Random_Graph(Graph):
 
     def __init__(self, n_nodes, p):
         Graph.__init__(self, n_nodes)
-        self.name = "Random(p = {0})".format(p)
+        self.name = "Random(p={0})".format(p)
         self.n_nodes = n_nodes
         self.p = p
 
@@ -283,7 +283,7 @@ class Small_World_Graph(Graph):
 
     def __init__(self, n_nodes, p):
         Graph.__init__(self, n_nodes)
-        self.name = "Small World"
+        self.name = "Small_World"
         self.n_nodes = n_nodes
         self.p = p
 

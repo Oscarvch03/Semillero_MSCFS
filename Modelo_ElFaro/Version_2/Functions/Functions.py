@@ -175,7 +175,7 @@ def simulation(ROUNDS, N, agents, R, k, ID_simulation):
         # print()
         # print("RONDA {0}".format(i+1))
         # print()
-        n_t = calcular_n_t(agents)
+        n_t = calcular_n_t(agents) #número de asistentes
         ro_t = n_t / N  # Proporcion de asistencia
         actualizar_puntajes(agents, ro_t, R)
         # old_pols = [i.politicas[-1] for i in agents]
