@@ -35,6 +35,7 @@ class Politica:
         self.num_politica = num_politica
         self.politica = None
 
+        pol = {}
         if(num_politica == 0):
             pol = {(0, 0): 0, (1, 1): 0, (1, -1): 0}
         elif(num_politica == 1):
@@ -52,13 +53,13 @@ class Politica:
         elif(num_politica == 7):
             pol = {(0, 0): 1, (1, 1): 1, (1, -1): 1}
         else:
-            print("The politic is a number in [0, 7]. ")
+            print("The policy is a number in [0, 7]. ")
 
         self.politica = pol
 
 
     def __str__(self):
-        msg = "Politic {0} \n".format(self.num_politica)
+        msg = "Policy {0} \n".format(self.num_politica)
         msg += "(0, 0): {0} \n".format(self.politica[(0, 0)])
         msg += "(1, 1): {0} \n".format(self.politica[(1, 1)])
         msg += "(1, -1): {0}".format(self.politica[(1, -1)])
