@@ -16,9 +16,10 @@ import time
 ################################################################################
 
 # PARAMETROS DEL MODELO
-N = 100
+N = 10
 R = 0.5
 ROUNDS = 300
+Nsimul = 10
 
 # Crear politicas (Por si acaso)
 pol0 = Cl.Politica(0)
@@ -37,51 +38,52 @@ pols = [pol0, pol1, pol2, pol3, pol4, pol5, pol6, pol7]
 
 # print("Pols listas")
 
-# Grafo de la vecindad entre agentes
-# G1 = Gr.Complete_Graph(N)
-p = 0.8
-G1 = Gr.Random_Graph(N, p)
-# G1 = Gr.Regular_Graph(N, 2)
-# G1 = Gr.Scale_Free_Graph() # Aun no
-# p = 0.5
-# G1 = Gr.Small_World_Graph(N, p)
-# G1 = Gr.Ring_Graph(N)
-# G1 = Gr.Star_Graph(N)
-# G1 = Gr.Wheel_Graph(N, 2)
+for n in range(Nsimul):
+    # Grafo de la vecindad entre agentes
+    #G1 = Gr.Complete_Graph(N)
+    p = 0.8
+    G1 = Gr.Random_Graph(N, p)
+    # G1 = Gr.Regular_Graph(N, 2)
+    # G1 = Gr.Scale_Free_Graph() # Aun no
+    # p = 0.5
+    # G1 = Gr.Small_World_Graph(N, p)
+    # G1 = Gr.Ring_Graph(N)
+    # G1 = Gr.Star_Graph(N)
+    # G1 = Gr.Wheel_Graph(N, 2)
 
-G1.generate_edges()
-# print(G1)
+    G1.generate_edges()
+    # print(G1)
+    
+    
+    # Generar txts (archivos que describen la red
+    G1.generate_txts()
+    
+    
+    # Crear N agentes
+    Agentes = Func.create_agents(N, G1, R)
 
-
-# Generar txts
-G1.generate_txts()
-
-
-# Crear N agentes
-Agentes = Func.create_agents(N, G1, R)
-
-
-ID_simulation = G1.name
-k = 5  # Cada k rondas se graba en los csv
-# EJECUTAR LAS RONDAS
-t_start = time.time()
-Func.simulation(ROUNDS, N, Agentes, R, k, ID_simulation)
-t_stop = time.time()
-time = t_stop - t_start
-Func.results(N, R, G1, ROUNDS, time, k, ID_simulation)
-
-
-# # Graficar red
-# G1.graficar_graph()
-
-
-print("Red:", G1)
-print("Agentes:", N)
-print("Umbral:", R)
-print("Rondas:", ROUNDS)
-print("k =", k)
-print("Time:", t_stop - t_start)
-
+    
+    ID_simulation = G1.name + "_"+str(n)
+    k = 5  # Cada k rondas se graba en los csv
+    # EJECUTAR LAS RONDAS
+    t_start = time.time()
+    Func.simulation(ROUNDS, N, Agentes, R, k, ID_simulation)
+    t_stop = time.time()
+    time_dif = t_stop - t_start
+    Func.results(N, R, G1, ROUNDS, time, k, ID_simulation)
+    
+    
+    # # Graficar red
+    # G1.graficar_graph()
+    
+    
+    print("Red:", G1)
+    print("Agentes:", N)
+    print("Umbral:", R)
+    print("Rondas:", ROUNDS)
+    print("k =", k)
+    print("Time:", time_dif)
+    
 
 # Graficar csv
 Func.graficar(N, R, ROUNDS, k, ID_simulation, True)
