@@ -118,3 +118,103 @@ k: 5
 Time: <module 'time' (built-in)>
 Out: estrategias_Random(p=0.8)_9.csv, politicas_Random(p=0.8)_9.csv, puntajes_Random(p=0.8)_9.csv, graf_Random(p=0.8)_9.png
 
+
+Simulation: Random(p=0.5)_0
+Red: Random(p=0.5)
+Agentes: 10
+Umbral: 0.5
+Rondas: 300
+k: 5
+Time: <module 'time' (built-in)>
+Out: estrategias_Random(p=0.5)_0.csv, politicas_Random(p=0.5)_0.csv, puntajes_Random(p=0.5)_0.csv, graf_Random(p=0.5)_0.png
+
+
+Simulation: Random(p=0.5)_1
+Red: Random(p=0.5)
+Agentes: 10
+Umbral: 0.5
+Rondas: 300
+k: 5
+Time: <module 'time' (built-in)>
+Out: estrategias_Random(p=0.5)_1.csv, politicas_Random(p=0.5)_1.csv, puntajes_Random(p=0.5)_1.csv, graf_Random(p=0.5)_1.png
+
+
+Simulation: Random(p=0.5)_2
+Red: Random(p=0.5)
+Agentes: 10
+Umbral: 0.5
+Rondas: 300
+k: 5
+Time: <module 'time' (built-in)>
+Out: estrategias_Random(p=0.5)_2.csv, politicas_Random(p=0.5)_2.csv, puntajes_Random(p=0.5)_2.csv, graf_Random(p=0.5)_2.png
+
+
+Simulation: Random(p=0.5)_3
+Red: Random(p=0.5)
+Agentes: 10
+Umbral: 0.5
+Rondas: 300
+k: 5
+Time: <module 'time' (built-in)>
+Out: estrategias_Random(p=0.5)_3.csv, politicas_Random(p=0.5)_3.csv, puntajes_Random(p=0.5)_3.csv, graf_Random(p=0.5)_3.png
+
+
+Simulation: Random(p=0.5)_4
+Red: Random(p=0.5)
+Agentes: 10
+Umbral: 0.5
+Rondas: 300
+k: 5
+Time: <module 'time' (built-in)>
+Out: estrategias_Random(p=0.5)_4.csv, politicas_Random(p=0.5)_4.csv, puntajes_Random(p=0.5)_4.csv, graf_Random(p=0.5)_4.png
+
+
+Simulation: Random(p=0.5)_5
+Red: Random(p=0.5)
+Agentes: 10
+Umbral: 0.5
+Rondas: 300
+k: 5
+Time: <module 'time' (built-in)>
+Out: estrategias_Random(p=0.5)_5.csv, politicas_Random(p=0.5)_5.csv, puntajes_Random(p=0.5)_5.csv, graf_Random(p=0.5)_5.png
+
+
+Simulation: Random(p=0.5)_6
+Red: Random(p=0.5)
+Agentes: 10
+Umbral: 0.5
+Rondas: 300
+k: 5
+Time: <module 'time' (built-in)>
+Out: estrategias_Random(p=0.5)_6.csv, politicas_Random(p=0.5)_6.csv, puntajes_Random(p=0.5)_6.csv, graf_Random(p=0.5)_6.png
+
+
+Simulation: Random(p=0.5)_7
+Red: Random(p=0.5)
+Agentes: 10
+Umbral: 0.5
+Rondas: 300
+k: 5
+Time: <module 'time' (built-in)>
+Out: estrategias_Random(p=0.5)_7.csv, politicas_Random(p=0.5)_7.csv, puntajes_Random(p=0.5)_7.csv, graf_Random(p=0.5)_7.png
+
+
+Simulation: Random(p=0.5)_8
+Red: Random(p=0.5)
+Agentes: 10
+Umbral: 0.5
+Rondas: 300
+k: 5
+Time: <module 'time' (built-in)>
+Out: estrategias_Random(p=0.5)_8.csv, politicas_Random(p=0.5)_8.csv, puntajes_Random(p=0.5)_8.csv, graf_Random(p=0.5)_8.png
+
+
+Simulation: Random(p=0.5)_9
+Red: Random(p=0.5)
+Agentes: 10
+Umbral: 0.5
+Rondas: 300
+k: 5
+Time: <module 'time' (built-in)>
+Out: estrategias_Random(p=0.5)_9.csv, politicas_Random(p=0.5)_9.csv, puntajes_Random(p=0.5)_9.csv, graf_Random(p=0.5)_9.png
+

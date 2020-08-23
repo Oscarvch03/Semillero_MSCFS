@@ -41,7 +41,7 @@ pols = [pol0, pol1, pol2, pol3, pol4, pol5, pol6, pol7]
 for n in range(Nsimul):
     # Grafo de la vecindad entre agentes
     #G1 = Gr.Complete_Graph(N)
-    p = 0.8
+    p = 0.5
     G1 = Gr.Random_Graph(N, p)
     # G1 = Gr.Regular_Graph(N, 2)
     # G1 = Gr.Scale_Free_Graph() # Aun no
