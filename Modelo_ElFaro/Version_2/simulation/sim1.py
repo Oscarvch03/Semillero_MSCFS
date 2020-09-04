@@ -61,7 +61,7 @@ for n in range(Nsimul):
     
     # Crear N agentes
     Agentes = Func.create_agents(N, G1, R)
-
+    
     
     ID_simulation = G1.name + "_"+str(n)
     k = 5  # Cada k rondas se graba en los csv
